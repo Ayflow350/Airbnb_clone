@@ -5,19 +5,45 @@ import Avatar from "../Avatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/hooks/useRegisterModal";
+import useLoginModal from "@/hooks/useLoginModal";
+import { User } from "@prisma/client";
+import { SafeUser } from "@/app/types";
+import { signOut } from "next-auth/react";
+import useRentModal from "@/hooks/useRentModal";
+import React from "react";
+import { useRouter } from "next/navigation";
 
-const UserMenu = () => {
+interface NavbarProps {
+  currentUser?: SafeUser | null;
+}
+
+const UserMenu: React.FC<NavbarProps> = ({ currentUser }) => {
+  console.log({ currentUser });
   const registerModal = useRegisterModal();
+  const router = useRouter();
+  const loginModal = useLoginModal();
+  const rentModal = useRentModal();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
 
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      return rentModal.onOpen();
+    }
+
+    rentModal.onOpen();
+  }, [currentUser, loginModal, rentModal]);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3 ">
-        <div className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
+        <div
+          onClick={onRent}
+          className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+        >
           Airbnb your home
         </div>
         <div
@@ -26,19 +52,42 @@ const UserMenu = () => {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar />
+            <Avatar src={currentUser?.image} />
           </div>
         </div>
       </div>
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm ">
           <div className="flex flex-col cursor-pointer ">
-            <>
-              <MenuItem onClick={() => {}} label="Login" />
-            </>
-            <>
-              <MenuItem onClick={registerModal.onOpen} label="SignUp" />
-            </>
+            {currentUser ? (
+              <>
+                <MenuItem
+                  onClick={() => router.push("/trips")}
+                  label="My Trips"
+                />
+                <MenuItem
+                  onClick={() => router.push("/favourites")}
+                  label="My favorites"
+                />
+                <MenuItem
+                  onClick={() => router.push("/reservations")}
+                  label="My reservations"
+                />
+                <MenuItem
+                  onClick={() => router.push("/properties")}
+                  label="My properties"
+                />
+                <MenuItem onClick={rentModal.onOpen} label="Airbnb my home" />
+                <hr />
+                <MenuItem onClick={() => signOut()} label="Logout" />
+              </>
+            ) : (
+              <>
+                <MenuItem onClick={loginModal.onOpen} label="Login" />
+
+                <MenuItem onClick={registerModal.onOpen} label="SignUp" />
+              </>
+            )}
           </div>
         </div>
       )}

@@ -6,7 +6,7 @@ import Button from "../Button";
 interface ModalProps {
   isOpen?: boolean;
   onClose: () => void;
-  OnSubmit: () => void;
+  onSubmit: () => void;
   title?: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
@@ -19,7 +19,7 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
-  OnSubmit,
+  onSubmit,
   title,
   body,
   footer,
@@ -42,14 +42,14 @@ const Modal: React.FC<ModalProps> = ({
     setTimeout(() => {
       onClose();
     }, 300);
-  }, [disabled, onclose]);
+  }, [disabled, onClose]);
 
   const handleSubmit = useCallback(() => {
     if (disabled) {
       return;
     }
-    OnSubmit();
-  }, [disabled, onsubmit]);
+    onSubmit();
+  }, [disabled, onSubmit]);
 
   const handleSecondaryAction = useCallback(() => {
     if (disabled || !SecondaryAction) {
@@ -82,10 +82,10 @@ const Modal: React.FC<ModalProps> = ({
                 </button>
                 <div className="text-lg font-semibold">{title}</div>
               </div>
-              <div className="relative p-6 flex-auto">{body}</div>
+              <div className="relative p-6 ">{body}</div>
               {/* footer */}
-              <div className="flex flex-col gap-2 p-6 ">
-                <div className="'flex flex-row items-center gap-4 w-full">
+              <div className="flex flex-col gap-2 p-6   gap-y-4 ">
+                <div className="flex  flex-row items-center gap-4  p-3  ">
                   {SecondaryAction && SecondaryActionLabel && (
                     <Button
                       outline

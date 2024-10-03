@@ -1,3 +1,5 @@
+"use client";
+
 import { IconType } from "react-icons";
 
 interface ButtonProps {
@@ -28,8 +30,8 @@ const Button: React.FC<ButtonProps> = ({
   rounded-lg
   hover:opacity-80
   w-full
-  ${outline ? "bg-white" : "bg-rose-500"}
-  ${outline ? "border-black" : "border-rose-500"}
+  ${outline ? "bg-white" : "bg-blue-500"}
+  ${outline ? "border-black" : "border-blue-500"}
   ${outline ? "text-black" : "text-white"}
   ${small ? "py-1" : "py-3"}
   ${small ? "text-sm" : "text-md"}
