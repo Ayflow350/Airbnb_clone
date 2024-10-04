@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
+
 interface IParams {
   listingId?: string;
 }
 
 export async function POST(request: Request, { params }: { params: IParams }) {
-  const CurrentUser = await getCurrentUser();
+  const currentUser = await getCurrentUser();
 
-  if (!CurrentUser) {
+  if (!currentUser) {
     return NextResponse.error();
   }
 
@@ -18,12 +19,12 @@ export async function POST(request: Request, { params }: { params: IParams }) {
     throw new Error("Invalid Id");
   }
 
-  let favouriteIds = [...(CurrentUser.favouriteIds || [])];
+  let favouriteIds = [...(currentUser.favouriteIds || [])];
   favouriteIds.push(listingId);
 
   const user = await prisma.user.update({
     where: {
-      id: CurrentUser.id,
+      id: currentUser.id,
     },
     data: {
       favouriteIds,
@@ -36,9 +37,9 @@ export async function DELETE(
   request: Request,
   { params }: { params: IParams }
 ) {
-  const CurrentUser = await getCurrentUser();
+  const currentUser = await getCurrentUser();
 
-  if (!CurrentUser) {
+  if (!currentUser) {
     return NextResponse.error();
   }
 
@@ -48,13 +49,13 @@ export async function DELETE(
     throw new Error("Invalid Id");
   }
 
-  let favouriteIds = [...(CurrentUser.favouriteIds || [])];
+  let favouriteIds = [...(currentUser.favouriteIds || [])];
 
   favouriteIds = favouriteIds.filter((id) => id !== listingId);
 
   const user = await prisma.user.update({
     where: {
-      id: CurrentUser.id,
+      id: currentUser.id,
     },
     data: {
       favouriteIds,
