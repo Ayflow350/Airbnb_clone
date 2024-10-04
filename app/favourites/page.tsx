@@ -2,6 +2,7 @@ import getCurrentUser from "../actions/getCurrentUser";
 import getFavoriteListings from "../actions/getFavouriteListings";
 import EmptyState from "@/components/EmptyState";
 import FavouriteClient from "./FavouriteClient";
+export const dynamic = "force-dynamic";
 
 const LisingPage = async () => {
   const listings = await getFavoriteListings();

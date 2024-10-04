@@ -1,5 +1,6 @@
 import EmptyState from "@/components/EmptyState";
 import getCurrentUser from "../actions/getCurrentUser";
+export const dynamic = "force-dynamic";
 
 import PropertiesClient from "./PropertiesClient";
 import getListings from "../actions/getListings";

@@ -1,8 +1,9 @@
 import EmptyState from "@/components/EmptyState";
 import getCurrentUser from "../actions/getCurrentUser";
 import getReservations from "../actions/getReservations";
-import TripsClient from "./ReservationsClient";
+
 import ReservationsClient from "./ReservationsClient";
+export const dynamic = "force-dynamic";
 
 const ReservationsPages = async () => {
   const currentUser = await getCurrentUser();

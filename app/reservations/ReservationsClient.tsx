@@ -4,7 +4,7 @@ import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 import ListingCard from "@/components/Listings/ListingCard";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Updated import
 import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -17,7 +17,7 @@ const ReservationsClient: React.FC<ReservationsClientProps> = ({
   reservations,
   currentUser,
 }) => {
-  const router = useRouter();
+  const router = useRouter(); // Correct hook from next/navigation
   const [deletingId, setDeletingId] = useState("");
 
   const onCancel = useCallback(
